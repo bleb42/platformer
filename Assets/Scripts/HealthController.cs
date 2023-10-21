@@ -1,35 +1,17 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Health))]
 public class HealthController : MonoBehaviour
 {
-    [SerializeField] private float _health;
+    private Health _healthController;
 
-    public float Health => _health;
-
-    private float _maxHealth;
-
-    private void Awake()
+    private void Start()
     {
-        _maxHealth = _health;
+        _healthController = GetComponent<Health>();
     }
 
     public void TakeDamage(float damage)
     {
-        _health -= damage;
-
-        if (_health <= 0)
-        {
-            Destroy(gameObject);
-        }
-    }
-
-    public void Heal(float heal)
-    {
-        _health += heal;
-
-        if (_health > _maxHealth)
-        {
-            _health = _maxHealth;
-        }
+        _healthController.TakeDamage(damage);
     }
 }
