@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(HealthController))]
 public class Health : MonoBehaviour
 {
     [SerializeField] private float _health;

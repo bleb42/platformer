@@ -9,10 +9,13 @@ public class Spawner : MonoBehaviour
 
     private List<Transform> _spawnPoints;
 
-    private void Start()
+    private void Awake()
     {
         _spawnPoints = GetComponentsInChildren<Transform>().ToList();
+    }
 
+    private void Start()
+    {
         if (_objectCount > _spawnPoints.Count)
         {
             _objectCount = _spawnPoints.Count;

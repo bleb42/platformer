@@ -35,7 +35,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (collision.collider.TryGetComponent(out HealthController enemy))
+            if (collision.collider.TryGetComponent(out Health enemy))
             {
                 Damage(enemy);
             }
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
         IsGrounded = true;
     }
 
-    private void Damage(HealthController enemy)
+    private void Damage(Health enemy)
     {
         enemy.TakeDamage(_damage);
     }

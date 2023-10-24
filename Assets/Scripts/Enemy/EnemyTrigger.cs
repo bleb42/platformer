@@ -8,12 +8,12 @@ public class EnemyTrigger : MonoBehaviour
 
     private EnemyController _enemyController;
 
-    private void Start()
+    private void Awake()
     {
         _enemyController = GetComponent<EnemyController>();
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.TryGetComponent(out PlayerController player))
         {
@@ -39,7 +39,7 @@ public class EnemyTrigger : MonoBehaviour
         {
             if (Attack == null)
             {
-                Attack = StartCoroutine(_enemyController.Damage(playerHealth));
+                Attack = StartCoroutine(_enemyController.ApplyDamage(playerHealth));
             }
         }
     }

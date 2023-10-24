@@ -12,28 +12,38 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float _damage = 5f;
     [SerializeField] private float _attackSpeed = 10f;
 
-    private Coroutine _patrol;
-
     private EnemyTrigger _enemyTrigger;
     private SpriteRenderer _spriteRenderer;
     private int _randomSpot;
     private float _distanceToSpot = 0.5f;
-    private bool _isPatrolling = true;
-    private bool _isChasing = false;
+    private bool _isPatrolling;
+    private bool _isChasing;
 
     private void Awake()
     {
         _randomSpot = Random.Range(0, _moveSpots.Length);
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _patrol = StartCoroutine(Patrol());
         _enemyTrigger = GetComponent<EnemyTrigger>();
+    }
+
+    private void Start()
+    {
+        StartPatrol();
     }
 
     private void Update()
     {
         if (_isPatrolling)
         {
-            Patrol();
+            transform.position
+                = Vector3.MoveTowards(transform.position, _moveSpots[_randomSpot].position, _speed * Time.deltaTime);
+
+            if (Vector2.Distance(transform.position, _moveSpots[_randomSpot].position) < _distanceToSpot)
+            {
+                _randomSpot = Random.Range(0, _moveSpots.Length);
+
+                _spriteRenderer.flipX = _moveSpots[_randomSpot].position.x < transform.position.x;
+            }
         }
         else if (_isChasing)
         {
@@ -46,27 +56,19 @@ public class EnemyController : MonoBehaviour
 
     public void StartChaising()
     {
-        if (_patrol != null)
-        {
-            StopCoroutine(_patrol);
-        }
-
         _isChasing = true;
         _isPatrolling = false;
     }
 
     public void StartPatrol()
     {
-        if (_patrol != null)
-        {
-            _patrol = StartCoroutine(Patrol());
-        }
+        _spriteRenderer.flipX = _moveSpots[_randomSpot].position.x < transform.position.x;
 
         _isChasing = false;
         _isPatrolling = true;
     }
 
-    public IEnumerator Damage(Health player)
+    public IEnumerator ApplyDamage(Health player)
     {
         WaitForSeconds attackSpeed = new WaitForSeconds(_attackSpeed);
 
@@ -75,24 +77,6 @@ public class EnemyController : MonoBehaviour
             player.TakeDamage(_damage);
 
             yield return attackSpeed;
-        }
-    }
-
-    private IEnumerator Patrol()
-    {
-        while (_isPatrolling)
-        {
-            transform.position
-                = Vector3.MoveTowards(transform.position, _moveSpots[_randomSpot].position, _speed * Time.deltaTime);
-
-            if (Vector2.Distance(transform.position, _moveSpots[_randomSpot].position) < _distanceToSpot)
-            {
-                _randomSpot = Random.Range(0, _moveSpots.Length);
-
-                _spriteRenderer.flipX = _moveSpots[_randomSpot].position.x < transform.position.x;
-            }
-
-            yield return null;
         }
     }
 }
