@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerCollector))]
+[RequireComponent(typeof(PlayerVampirizm))]
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(PlayerAnimations))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -13,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public bool IsGrounded { get; private set; }
 
     private Rigidbody2D _playerRig2D;
+    private PlayerVampirizm _playerVampirizm;
 
     private void Awake()
     {
@@ -20,6 +22,7 @@ public class PlayerController : MonoBehaviour
         IsGrounded = false;
 
         _playerRig2D = GetComponent<Rigidbody2D>();
+        _playerVampirizm = GetComponent<PlayerVampirizm>();
     }
 
     private void Update()
@@ -38,6 +41,14 @@ public class PlayerController : MonoBehaviour
             if (collision.collider.TryGetComponent(out Health enemy))
             {
                 Damage(enemy);
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (collision.gameObject.TryGetComponent(out Health enemy))
+            {
+                _playerVampirizm.StartTakingDamage(enemy);
             }
         }
     }
