@@ -15,7 +15,7 @@ public class EnemyTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out PlayerController player))
+        if (collision.gameObject.TryGetComponent(out PlayerMovement player))
         {
             _enemyController.StartChaising();
 
@@ -25,7 +25,7 @@ public class EnemyTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out PlayerController player))
+        if (collision.gameObject.TryGetComponent(out PlayerMovement player))
         {
             _enemyController.StartPatrol();
 
@@ -35,7 +35,7 @@ public class EnemyTrigger : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out Health playerHealth) && collision.gameObject.TryGetComponent(out PlayerController player))
+        if (collision.gameObject.TryGetComponent(out Health playerHealth) && collision.gameObject.TryGetComponent(out PlayerMovement player))
         {
             if (Attack == null)
             {
@@ -46,7 +46,7 @@ public class EnemyTrigger : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        if (collision.gameObject.TryGetComponent(out PlayerController player))
+        if (collision.gameObject.TryGetComponent(out PlayerMovement player))
         {
             if (Attack != null)
                 StopCoroutine(Attack);

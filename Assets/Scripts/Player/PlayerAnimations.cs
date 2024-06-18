@@ -1,21 +1,19 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
-[RequireComponent(typeof(SpriteRenderer))]
-[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(PlayerMovement), typeof(SpriteRenderer), typeof(Animator))]
 public class PlayerAnimations : MonoBehaviour
 {
     private const string State = "State";
 
     private SpriteRenderer _playerRenderer;
     private Animator _animator;
-    private PlayerController _playerController;
+    private PlayerMovement _playerController;
 
     private void Awake()
     {
         _playerRenderer= GetComponent<SpriteRenderer>();
         _animator= GetComponent<Animator>();
-        _playerController= GetComponent<PlayerController>();
+        _playerController= GetComponent<PlayerMovement>();
     }
 
     private void Update()
